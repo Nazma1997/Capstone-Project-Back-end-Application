@@ -5,6 +5,8 @@
  *     Loan:
  *       type: object
  *       properties:
+ *         id:
+ *          type: number
  *         name: 
  *          type: string
  *         price:
@@ -17,7 +19,7 @@
  *           type: boolean
  */
 export type Loan = {
-    id: string;
+    id: number,
     name: string;
     description: string;
     price?: number;
