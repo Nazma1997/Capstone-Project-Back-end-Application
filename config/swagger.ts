@@ -1,12 +1,7 @@
 import { Express } from "express";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
-
-
-
-
-                                                                                                       
-
+                                                                                           
 const serverUrl =
     process.env.SWAGGER_SERVER_URL || "http://localhost:9000/api/v1";
 const swaggerOptions: swaggerJsDoc.Options = {
