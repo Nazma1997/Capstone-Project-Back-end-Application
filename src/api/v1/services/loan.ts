@@ -9,7 +9,7 @@ import {
 
 const COLLECTION = "loans";
 
-export const getAllItems = async (): Promise<Loan[]> => {
+export const getAllLoans = async (): Promise<Loan[]> => {
     const snapshot: FirebaseFirestore.QuerySnapshot = await getItems(
         COLLECTION
     );
@@ -22,13 +22,13 @@ export const getAllItems = async (): Promise<Loan[]> => {
 
 
 
-export const createItem = async (item: Partial<Loan>): Promise<Loan> => {
+export const createLoan = async (item: Partial<Loan>): Promise<Loan> => {
     const id: string = await createItems(COLLECTION, item);
     return { id, ...item } as Loan;
 };
 
 
-export const updateItem = async (
+export const updateLoan = async (
     id: string,
     item: Partial<Loan>
 ): Promise<Loan> => {
@@ -37,6 +37,6 @@ export const updateItem = async (
 };
 
 
-export const deleteItem = async (id: string): Promise<void> => {
+export const deleteLoan = async (id: string): Promise<void> => {
     await deleteItems(COLLECTION, id);
 };

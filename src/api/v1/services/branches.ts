@@ -9,7 +9,7 @@ import {
 
 const COLLECTION = "branches";
 
-export const getAllItems = async (): Promise<Branch[]> => {
+export const getAllBranches = async (): Promise<Branch[]> => {
     const snapshot: FirebaseFirestore.QuerySnapshot = await getItems(
         COLLECTION
     );
@@ -22,13 +22,13 @@ export const getAllItems = async (): Promise<Branch[]> => {
 
 
 
-export const createItem = async (item: Partial<Branch>): Promise<Branch> => {
+export const createBranch = async (item: Partial<Branch>): Promise<Branch> => {
     const id: string = await createItems(COLLECTION, item);
     return { id, ...item } as Branch;
 };
 
 
-export const updateItem = async (
+export const updateBranch = async (
     id: string,
     item: Partial<Branch>
 ): Promise<Branch> => {
@@ -37,6 +37,6 @@ export const updateItem = async (
 };
 
 
-export const deleteItem = async (id: string): Promise<void> => {
+export const deleteBranch = async (id: string): Promise<void> => {
     await deleteItems(COLLECTION, id);
 };

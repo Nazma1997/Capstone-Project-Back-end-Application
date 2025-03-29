@@ -9,7 +9,7 @@ import {
 
 const COLLECTION = "users";
 
-export const getAllItems = async (): Promise<User[]> => {
+export const getAllUsers = async (): Promise<User[]> => {
     const snapshot: FirebaseFirestore.QuerySnapshot = await getItems(
         COLLECTION
     );
@@ -22,13 +22,13 @@ export const getAllItems = async (): Promise<User[]> => {
 
 
 
-export const createItem = async (item: Partial<User>): Promise<User> => {
+export const createUser = async (item: Partial<User>): Promise<User> => {
     const id: string = await createItems(COLLECTION, item);
     return { id, ...item } as User;
 };
 
 
-export const updateItem = async (
+export const updateUser = async (
     id: string,
     item: Partial<User>
 ): Promise<User> => {
@@ -37,6 +37,6 @@ export const updateItem = async (
 };
 
 
-export const deleteItem = async (id: string): Promise<void> => {
+export const deleteUser = async (id: string): Promise<void> => {
     await deleteItems(COLLECTION, id);
 };

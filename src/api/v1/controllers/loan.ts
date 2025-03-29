@@ -11,7 +11,7 @@ export const getAllItems = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const items: Loan[] = await itemService.getAllItems();
+        const items: Loan[] = await itemService.getAllLoans();
 
         res.status(HTTP_STATUS.OK).json(
             items
@@ -35,11 +35,11 @@ export const createItem = async (
             is_approved: 0
         }
 
-        const item: Item = await itemService.createItem(data);
+        const item: Loan = await itemService.createLoan(data);
 
       res.status(201).json(
             {
-                message: 'Item created susscssfully',
+                message: 'Loan created susscssfully',
                 item: item
             }
         );
@@ -56,7 +56,7 @@ export const updateItem = async (
 ): Promise<void> => {
     try {
 
-        const updated: Item = await itemService.updateItem(
+        const updated: Loan = await itemService.updateLoan(
             req.params.id,
             req.body
         );
@@ -79,7 +79,7 @@ export const reviewItem = async (
 ): Promise<void> => {
     try {
 
-        const updated: Item = await itemService.updateItem(
+        const updated: Loan = await itemService.updateLoan(
             req.params.id,
            {
             is_reviewed: true
@@ -103,7 +103,7 @@ export const approveItem = async (
 ): Promise<void> => {
     try {
 
-        const updated: Item = await itemService.updateItem(
+        const updated: Loan = await itemService.updateLoan(
             req.params.id,
            {
             is_approved: true
@@ -128,9 +128,9 @@ export const deleteItem = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        await itemService.deleteItem(req.params.id);
+        await itemService.deleteLoan(req.params.id);
         res.status(200).json({
-            message: 'Item deleted successfully',
+            message: 'Loan deleted successfully',
         });
     } catch (error) {
         next(error);
