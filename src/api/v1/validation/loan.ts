@@ -8,6 +8,7 @@ export const userSchema: ObjectSchema = Joi.object({
         "any.required": "Name is required",
     }),
     description: Joi.string().email().required(),
+    price: Joi.number().optional(),
     is_approved: Joi.boolean(),
     is_reviewed: Joi.boolean(),
     
