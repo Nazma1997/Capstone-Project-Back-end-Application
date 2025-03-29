@@ -6,17 +6,29 @@
  *       type: object
  *       properties:
  *         id:
- *          type: number
+ *           type: number
  *         name: 
- *          type: string
+ *           type: string
  *         price:
- *          type: number
- *        description:
- *         type: string
+ *           type: number
+ *         description:
+ *           type: string
  *         is_reviewed:
  *           type: boolean
  *         is_approved:
  *           type: boolean
+ *         created_at:
+ *           type: string
+ *           format: date-time
+ *         update_at:
+ *           type: string
+ *           format: date-time
+ *       required:
+ *         - id
+ *         - name
+ *         - description
+ *         - is_reviewed
+ *         - is_approved
  */
 export type Loan = {
     id: number,
