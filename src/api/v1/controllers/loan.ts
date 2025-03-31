@@ -2,7 +2,6 @@
 import { Request, Response, NextFunction } from "express";
 import * as loanService from "../services/loan";
 import type { Loan } from "../models/loan";
-import { HTTP_STATUS } from "src/constants/httpConstants";
 import { HTTP_STATUS } from '../../../constants/httpConstants';
 
 
