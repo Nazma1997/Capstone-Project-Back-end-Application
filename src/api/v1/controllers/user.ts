@@ -12,7 +12,7 @@ import { User } from '../models/user';
 
 
 
-export const get = async (
+export const getAll = async (
     req: Request,
     res: Response,
     next: NextFunction
