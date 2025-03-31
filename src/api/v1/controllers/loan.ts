@@ -5,7 +5,7 @@ import type { Loan } from "../models/loan";
 import { HTTP_STATUS } from "src/constants/httpConstants";
 
 
-export const getAllItems = async (
+export const getAll = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -23,7 +23,7 @@ export const getAllItems = async (
 
 
 
-export const createItem = async (
+export const create = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -49,7 +49,7 @@ export const createItem = async (
 };
 
 
-export const updateItem = async (
+export const update = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -72,7 +72,7 @@ export const updateItem = async (
     }
 };
 
-export const reviewItem = async (
+export const review = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -96,7 +96,7 @@ export const reviewItem = async (
         next(error);
     }
 };
-export const approveItem = async (
+export const approve = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -122,7 +122,7 @@ export const approveItem = async (
 };
 
 
-export const deleteItem = async (
+export const remove = async (
     req: Request,
     res: Response,
     next: NextFunction
