@@ -8,6 +8,7 @@ import {
 } from "../repositories/firestore";
 
 const COLLECTION = "branches";
+const branches: Branch[] = [];
 
 export const getAllBranches = async (): Promise<Branch[]> => {
     const snapshot: FirebaseFirestore.QuerySnapshot = await getItems(
@@ -27,7 +28,10 @@ export const createBranch = async (item: Partial<Branch>): Promise<Branch> => {
     return { id, ...item } as Branch;
 };
 
-
+export const getBranchById = async (id: number): Promise<Branch | null> => {
+    const branch = branches.find(branch => branch.id === id);
+    return branch || null;
+};
 export const updateBranch = async (
     id: string,
     item: Partial<Branch>

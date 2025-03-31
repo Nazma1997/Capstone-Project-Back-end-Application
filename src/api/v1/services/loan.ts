@@ -8,6 +8,7 @@ import {
 } from "../repositories/firestore";
 
 const COLLECTION = "loans";
+const loans: Loan[] = [];
 
 export const getAllLoans = async (): Promise<Loan[]> => {
     const snapshot: FirebaseFirestore.QuerySnapshot = await getItems(
@@ -25,6 +26,11 @@ export const getAllLoans = async (): Promise<Loan[]> => {
 export const createLoan = async (item: Partial<Loan>): Promise<Loan> => {
     const id: string = await createItems(COLLECTION, item);
     return { id, ...item } as Loan;
+};
+
+export const getLoanById = async (id: number): Promise<Loan | null> => {
+    const loan = loans.find(loan => loan.id === id);
+    return loan || null;
 };
 
 
