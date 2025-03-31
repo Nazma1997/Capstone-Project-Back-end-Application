@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
 import swaggerConfig from '../config/swagger';
+import customErrorHandler from './api/v1/middleware/customErrorHandler';
 dotenv.config();
   
 const app : Express = express();
@@ -20,7 +21,7 @@ app.get("/", (req, res) => {
     res.send('You are landed an empty ocean')
 })
 
-
+app.use(customErrorHandler)
 
 export default app
 

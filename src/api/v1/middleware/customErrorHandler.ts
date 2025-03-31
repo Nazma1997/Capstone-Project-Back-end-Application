@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { ErrorClass, ServiceError } from "../errors/errors";
 
-const errorHandler = (
+const customErrorHandler = (
     error: Error | null,
     req: Request,
     res: Response,
@@ -27,10 +27,10 @@ const errorHandler = (
         res.status(500).json(
             {
                 message: error.message,
-                'INTERNAL_SERVER_ERROR'
+                code: 'INTERNAL_SERVER_ERROR'
             }
         );
     }
 };
 
-export default errorHandler;
+export default customErrorHandler;
