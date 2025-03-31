@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
-import { customClaims } from '../controllers/admin'; 
+import { customClaims } from '../controllers/admin';
+
 const router: Router = express.Router();
 
 /**
@@ -7,10 +8,10 @@ const router: Router = express.Router();
  * /admin/set-custom-claims:
  *   post:
  *     summary: Set custom user claims (Admin only)
- *     description: Assign custom permissions/roles to a user (e.g., make admin, assign branch)
+ *     description: Assign custom permissions/roles to a user (e.g., admin access, branch assignment)
  *     tags: [Admin]
  *     security:
- *       - bearerAuth: []  # Requires admin privileges
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -19,14 +20,15 @@ const router: Router = express.Router();
  *             type: object
  *             required:
  *               - userId
- *               - claims
+ *               - role
  *             properties:
  *               userId:
  *                 type: string
- *                 description: ID of the user to modify
- *               claims:
- *                 type: object
- *                 description: Key-value pairs of custom claims (e.g., { admin: true, branch: 'NYC' })
+ *                 example: "user123"
+ *               role:
+ *                 type: string
+ *                 example: "admin"
+
  *     responses:
  *       200:
  *         description: Custom claims set successfully
@@ -41,7 +43,7 @@ const router: Router = express.Router();
  *                 user:
  *                   $ref: "#/components/schemas/User"
  *       403:
- *         description: Unauthorized (not an admin)
+ *         description: Unauthorized (admin access required)
  *       404:
  *         description: User not found
  */

@@ -98,7 +98,7 @@ router.get('/:id', branchDetails);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: "#/components/schemas/BranchUpdate"
+ *             $ref: "#/components/schemas/Branch"
  *     responses:
  *       200:
  *         description: Branch updated successfully

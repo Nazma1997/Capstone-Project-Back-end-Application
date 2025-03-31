@@ -131,7 +131,7 @@ router.get('/:id', userDetails);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: "#/components/schemas/UserUpdate"
+ *             $ref: "#/components/schemas/User"
  *     responses:
  *       200:
  *         description: User updated successfully
