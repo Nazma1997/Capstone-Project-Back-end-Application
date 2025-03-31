@@ -7,7 +7,7 @@ import { Branch } from '../models/branch';
 
 
 
-export const get = async (
+export const getAll = async (
     req: Request,
     res: Response,
     next: NextFunction
