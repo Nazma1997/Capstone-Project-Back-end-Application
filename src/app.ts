@@ -17,10 +17,10 @@ app.use(morgan('combined'))
 app.use(express.json());
 app.use(cors())
 
-app.use('api/v1/loan', loanRouter)
-app.use('api/v1/user', userRoutes)
-app.use('api/v1/admin', adminRoutes)
-app.use('api/v1/branch', branchRoutes)
+app.use('/api/v1/loan', loanRouter)
+app.use('/api/v1/user', userRoutes)
+app.use('/api/v1/admin', adminRoutes)
+app.use('/api/v1/branch', branchRoutes)
 
 swaggerConfig(app)
 

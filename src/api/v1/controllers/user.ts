@@ -3,7 +3,7 @@ import { UserRecord } from 'firebase-admin/auth';
 import { auth } from "../../../../config/firebaseConfig";
 import { clientAuth } from '../../../../config/firebaseClient';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { HTTP_STATUS } from 'src/constants/httpConstants';
+import { HTTP_STATUS } from '../../../constants/httpConstants';
 import * as userService from "../services/user";
 import { User } from '../models/user';
 

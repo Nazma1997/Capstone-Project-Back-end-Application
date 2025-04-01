@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { HTTP_STATUS } from 'src/constants/httpConstants';
+import { HTTP_STATUS } from '../../../constants/httpConstants';
 import * as branchService from "../services/branches";
 import { Branch } from '../models/branch';
 
@@ -13,10 +13,10 @@ export const getAll = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const items: Branch[] = await branchService.getAllBranches();
+        const branches: Branch[] = await branchService.getAllBranches();
 
         res.status(HTTP_STATUS.OK).json(
-            items
+            branches
         );
     } catch (error) {
         next(error);
@@ -36,12 +36,12 @@ export const create = async (
            
         }
 
-        const item: Branch = await branchService.createBranch(data);
+        const branch: Branch = await branchService.createBranch(data);
 
       res.status(HTTP_STATUS.CREATED).json(
             {
                 message: 'Branch created susscssfully',
-                item: item
+                branch: branch
             }
         );
     } catch (error) {
@@ -69,7 +69,7 @@ export const branchDetails = async (
       }
       res.status(HTTP_STATUS.OK).json({
         success: true,
-        data: branch,
+        branch: branch,
       });
     } catch (error) {
       next(error);
@@ -82,7 +82,7 @@ export const update = async (
 ): Promise<void> => {
     try {
 
-        const updated: Branch = await branchService.updateBranch(
+        const branch: Branch = await branchService.updateBranch(
             req.params.id,
             req.body
         );
@@ -90,7 +90,7 @@ export const update = async (
         res.status(HTTP_STATUS.OK).json(
             {
                 message: 'Branch Updated successfully',
-                item: updated
+                branch: branch
             }
         );
     } catch (error) {
