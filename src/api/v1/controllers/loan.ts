@@ -39,7 +39,7 @@ export const create = async (
 
       res.status(HTTP_STATUS.CREATED).json(
             {
-                message: 'Loan created susscssfully',
+                message: 'Loan created successfully',
                 loan: item
             }
         );
@@ -133,7 +133,7 @@ export const loanDetails = async (
     }
   
     try {
-      const loan = await loanService.getLoanById(Number(id));
+      const loan = await loanService.getLoanById(id);
       if (!loan) {
         res.status(HTTP_STATUS.NOT_FOUND).json({ message: 'Loan not found' });
         return;

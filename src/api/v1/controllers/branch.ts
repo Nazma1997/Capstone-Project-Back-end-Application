@@ -40,7 +40,7 @@ export const create = async (
 
       res.status(HTTP_STATUS.CREATED).json(
             {
-                message: 'Branch created susscssfully',
+                message: 'Branch created successfully',
                 branch: branch
             }
         );

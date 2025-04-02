@@ -31,7 +31,7 @@
  *         - is_approved
  */
 export type Loan = {
-    id: number,
+    id: string,
     name: string;
     description: string;
     price?: number;

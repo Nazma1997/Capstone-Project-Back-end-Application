@@ -45,7 +45,7 @@ export const create = async (
 
       res.status(201).json(
             {
-                message: 'User created susscssfully',
+                message: 'User created successfully',
                 item: item
             }
         );

@@ -50,7 +50,7 @@ describe("Branch Controller", () => {
       expect(branchService.createBranch).toHaveBeenCalledWith(newBranchData);
       expect(mockRes.status).toHaveBeenCalledWith(201);
       expect(mockRes.json).toHaveBeenCalledWith({
-        message: 'Branch created susscssfully',
+        message: 'Branch created successfully',
         branch: mockCreatedBranch
       });
       expect(mockNext).not.toHaveBeenCalled();
