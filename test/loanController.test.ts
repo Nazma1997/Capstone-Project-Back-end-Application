@@ -121,7 +121,7 @@ describe("Loan Controller", () => {
   describe("update", () => {
     it("should update loan status successfully", async () => {
       const loanId = "3ycqSUJmqIDsGHOdYwrB";
-      const updateData = { is_approved: true };
+      const updateData = { is_approved: true , name: 'change name'};
       const updatedLoan = { id: loanId, ...updateData };
 
       mockReq.params = { id: loanId };
@@ -147,6 +147,7 @@ describe("Loan Controller", () => {
       expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
     });
   });
+  
 
   describe("remove", () => {
     it("should delete loan successfully", async () => {
