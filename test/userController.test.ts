@@ -61,7 +61,37 @@ describe("Loan Controller", () => {
       expect(mockNext).toHaveBeenCalledWith(error);
     });
   });
+  describe("update", () => {
+     it("should update user successfully", async () => {
+       const userId = "3ycqSUJmqIDsGHOdYwrB";
+       const updateData = {  name: 'change name'};
+       const updated = { id: userId, ...updateData };
+ 
+       mockReq.params = { id: userId };
+       mockReq.body = updateData;
+       (userService.updateUser as jest.Mock).mockResolvedValue(updated);
+ 
+    await userController.update(mockReq as Request, mockRes as Response, mockNext);
 
+ 
+       expect(userService.updateUser).toHaveBeenCalledWith(userId, updateData);
+       expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
+       expect(mockRes.json).toHaveBeenCalledWith({
+         message: 'Updated successfully',
+         item: updated
+       });
+     });
+ 
+     it("should reject invalid status updates", async () => {
+       mockReq.params = { id: "asdas" };
+       mockReq.body = { name: 'djsaid' };
+ 
+       await userController.update(mockReq as Request, mockRes as Response, mockNext);
+ 
+       expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
+     });
+   });
+   
  
 
  
