@@ -37,6 +37,9 @@ export const updateUser = async (
 };
 
 
-export const deleteUser = async (id: string): Promise<void> => {
+export const deleteUser = async (id: string) => {
     await deleteItems(COLLECTION, id);
+    return {
+        message: 'User deleted successfully'
+    }
 };

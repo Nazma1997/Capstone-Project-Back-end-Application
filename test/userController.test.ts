@@ -5,7 +5,7 @@ import { HTTP_STATUS } from "../src/constants/httpConstants";
 
 jest.mock("../src/api/v1/services/user.ts");
 
-describe("Loan Controller", () => {
+describe("User Controller", () => {
   let mockReq: Partial<Request>;
   let mockRes: Partial<Response>;
   let mockNext: jest.Mock;
@@ -108,9 +108,9 @@ describe("Loan Controller", () => {
        });
    
        it("should handle filters and pagination", async () => {
-         const mockLoans = [{ id: "zcdxzc" }];
+         const mock = [{ id: "zcdxzc" }];
        
-         (userService.getAllUsers as jest.Mock).mockResolvedValue(mockLoans);
+         (userService.getAllUsers as jest.Mock).mockResolvedValue(mock);
    
          await userController.getAll(mockReq as Request, mockRes as Response, mockNext);
        });
@@ -123,8 +123,31 @@ describe("Loan Controller", () => {
          expect(mockRes.json).toHaveBeenCalledWith([]);
        });
      });
+  describe("remove", () => {
+     it("should delete user successfully", async () => {
+       const userId = "123";
+       mockReq.params = { id: userId };
+       (userService.deleteUser as jest.Mock).mockResolvedValue(true);
  
-
+   const user = await userController.remove(mockReq as Request, mockRes as Response, mockNext);
+   
  
+       expect(userService.deleteUser).toHaveBeenCalledWith(userId);
+       expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
+       expect(mockRes.json).toHaveBeenCalledWith({
+         message: 'User deleted successfully'
+       });
+     });
+ 
+     it("should handle deletion errors", async () => {
+       const error = new Error("Deletion failed");
+       mockReq.params = { id: "123" };
+       (userService.deleteUser as jest.Mock).mockRejectedValue(error);
+ 
+       await userController.remove(mockReq as Request, mockRes as Response, mockNext);
+ 
+       expect(mockNext).toHaveBeenCalledWith(error);
+     });
+   });
 
 });
