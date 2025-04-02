@@ -7,7 +7,7 @@ export const branchSchema: ObjectSchema = Joi.object({
         "string.max": "Name cannot exceed 100 characters",
         "any.required": "Name is required",
     }),
-    address: Joi.string().email().required(),
+    address: Joi.string().required(),
     created_at: Joi.date(),
     updated_at: Joi.date(),
 });

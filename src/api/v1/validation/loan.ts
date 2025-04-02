@@ -7,7 +7,7 @@ export const loanSchema: ObjectSchema = Joi.object({
         "string.max": "Name cannot exceed 100 characters",
         "any.required": "Name is required",
     }),
-    description: Joi.string().email().required(),
+    description: Joi.string().required(),
     price: Joi.number().optional(),
     is_approved: Joi.boolean(),
     is_reviewed: Joi.boolean(),
