@@ -1,5 +1,7 @@
 import express, { Router } from 'express';
 import { approve, create, remove, review, getAll, loanDetails } from '../controllers/loan';
+import { validateRequest } from '../middleware/validate';
+import { loanSchema } from '../validation/loan';
 
 const router: Router = express.Router();
 /**
@@ -31,7 +33,7 @@ const router: Router = express.Router();
  *                 item:
  *                   $ref: "#/components/schemas/Loan"
  */
-router.post('/create', create)
+router.post('/create',validateRequest(loanSchema), create)
 /**
  * @openapi
  * /loan/{id}/review:

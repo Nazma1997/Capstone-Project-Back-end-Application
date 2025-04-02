@@ -1,17 +1,6 @@
 import { firestore } from "firebase-admin";
 
-/**
- * Firestore Test Helpers
- *
- * This file contains utility functions to help mock Firestore operations in your tests.
- * These helpers make it easier to write unit tests for code that interacts with Firestore,
- * without actually connecting to a real Firestore database.
- */
 
-/**
- * MockFirestoreData represents the structure of a Firestore document.
- * It's a flexible type that can contain any key-value pairs, just like a real Firestore document.
- */
 export type MockFirestoreData = {
     [key: string]: unknown;
 };

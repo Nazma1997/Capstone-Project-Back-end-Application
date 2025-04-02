@@ -1,5 +1,7 @@
 import express, { Router } from 'express';
 import { getAll, create, branchDetails, update, remove } from '../controllers/branch';
+import { validateRequest } from '../middleware/validate';
+import { branchSchema } from '../validation/branch';
 
 const router: Router = express.Router();
 
@@ -30,7 +32,7 @@ const router: Router = express.Router();
  *                 branch:
  *                   $ref: "#/components/schemas/Branch"
  */
-router.post('/create', create);
+router.post('/create', validateRequest(branchSchema), create);
 
 /**
  * @openapi

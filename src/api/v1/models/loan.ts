@@ -36,7 +36,7 @@ export type Loan = {
     description: string;
     price?: number;
     created_at: Date;
-    update_at: Date;
+    updated_at: Date;
     is_reviewed: Boolean;
     is_approved: Boolean
 };

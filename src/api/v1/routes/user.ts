@@ -1,5 +1,7 @@
 import express, { Router } from 'express';
 import { getAll, create, login, userDetails, update, remove } from '../controllers/user';
+import { validateRequest } from '../middleware/validate';
+import { userSchema } from '../validation/user';
 
 const router: Router = express.Router();
 
@@ -30,7 +32,7 @@ const router: Router = express.Router();
  *                 user:
  *                   $ref: "#/components/schemas/User"
  */
-router.post('/create', create);
+router.post('/create',validateRequest(userSchema), create);
 
 /**
  * @openapi

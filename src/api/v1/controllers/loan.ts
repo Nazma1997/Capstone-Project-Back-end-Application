@@ -40,7 +40,7 @@ export const create = async (
       res.status(HTTP_STATUS.CREATED).json(
             {
                 message: 'Loan created susscssfully',
-                item: item
+                loan: item
             }
         );
     } catch (error) {
@@ -63,8 +63,8 @@ export const update = async (
 
         res.status(HTTP_STATUS.OK).json(
             {
-                message: 'Updated successfully',
-                item: updated
+                message: 'Loan updated successfully',
+                loan: updated
             }
         );
     } catch (error) {
@@ -140,7 +140,7 @@ export const loanDetails = async (
       }
       res.status(HTTP_STATUS.OK).json({
         success: true,
-        data: loan,
+        loan: loan,
       });
     } catch (error) {
       next(error);
