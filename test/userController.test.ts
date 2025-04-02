@@ -91,7 +91,38 @@ describe("Loan Controller", () => {
        expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
      });
    });
+    describe("getAll", () => {
+       it("should return all users with 200 status", async () => {
+         const mock = [
+           { id: "user1", name: 'sadsa'},
+           { id: "user2", name: 'asdasd'}
+         ];
    
+         (userService.getAllUsers as jest.Mock).mockResolvedValue(mock);
+   
+         await userController.getAll(mockReq as Request, mockRes as Response, mockNext);
+   
+         expect(userService.getAllUsers).toHaveBeenCalled();
+         expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
+         expect(mockRes.json).toHaveBeenCalledWith(mock);
+       });
+   
+       it("should handle filters and pagination", async () => {
+         const mockLoans = [{ id: "zcdxzc" }];
+       
+         (userService.getAllUsers as jest.Mock).mockResolvedValue(mockLoans);
+   
+         await userController.getAll(mockReq as Request, mockRes as Response, mockNext);
+       });
+   
+       it("should return empty array when no user exist", async () => {
+         (userService.getAllUsers as jest.Mock).mockResolvedValue([]);
+   
+         await userController.getAll(mockReq as Request, mockRes as Response, mockNext);
+   
+         expect(mockRes.json).toHaveBeenCalledWith([]);
+       });
+     });
  
 
  
