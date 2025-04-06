@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import * as loanService from "../services/loan";
 import type { Loan } from "../models/loan";
 import { HTTP_STATUS } from '../../../constants/httpConstants';
+import { sendEmail } from "./mailer";
 
 
 export const getAll = async (
@@ -36,6 +37,15 @@ export const create = async (
         }
 
         const item: Loan = await loanService.createLoan(data);
+
+
+      //  send mail 
+      sendEmail({
+        email: 'nazmaakterdev@gmail.com',
+        subject: 'Loan Application',
+        text: `A user has applied for a loan. Please review the application.`
+      });
+      
 
       res.status(HTTP_STATUS.CREATED).json(
             {
