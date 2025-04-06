@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
 import { UserRecord } from 'firebase-admin/auth';
+
 import { auth } from "../../../../config/firebaseConfig";
 import { clientAuth } from '../../../../config/firebaseClient';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { HTTP_STATUS } from '../../../constants/httpConstants';
-import * as userService from "../services/user";
-import { User } from '../models/user';
+
 
 
 
@@ -18,7 +18,7 @@ export const getAll = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const items: User[] = await userService.getAllUsers();
+        const items  = await auth.listUsers();
 
         res.status(HTTP_STATUS.OK).json(
             items
@@ -40,10 +40,10 @@ export const create = async (
             ...req.body,
            
         }
+        
+        const item = await auth.createUser(data);
 
-        const item: User = await userService.createUser(data);
-
-      res.status(201).json(
+      res.status(HTTP_STATUS.CREATED).json(
             {
                 message: 'User created successfully',
                 item: item
@@ -55,9 +55,7 @@ export const create = async (
 };
 export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { email, password } = req.body;
-
     try {
-    
         const userCredential = await signInWithEmailAndPassword(clientAuth, email, password);
         if (userCredential.user) {
          
@@ -100,12 +98,12 @@ export const update = async (
 ): Promise<void> => {
     try {
 
-        const updated: User = await userService.updateUser(
+        const updated =  await auth.updateUser(
             req.params.id,
             req.body
         );
 
-        res.status(200).json(
+        res.status(HTTP_STATUS.OK).json(
             {
                 message: 'Updated successfully',
                 item: updated
@@ -125,9 +123,9 @@ export const remove = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        await userService.deleteUser(req.params.id);
-        res.status(200).json({
-            message: 'Loan deleted successfully',
+        await auth.deleteUser(req.params.id);
+        res.status(HTTP_STATUS.OK).json({
+            message: 'User deleted successfully',
         });
     } catch (error) {
         next(error);
