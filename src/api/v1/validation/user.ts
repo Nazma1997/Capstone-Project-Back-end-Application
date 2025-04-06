@@ -38,6 +38,7 @@ export const updateUserSchema: ObjectSchema = Joi.object({
         "string.max": "Password cannot exceed 100 characters",
       
     }),
+    id: Joi.string().required(),
     
    
 });

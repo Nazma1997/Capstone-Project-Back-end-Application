@@ -17,12 +17,11 @@ export const loanSchema: ObjectSchema = Joi.object({
 });
 export const loanUpdateSchema: ObjectSchema = Joi.object({
     name: Joi.string().min(2).max(100).optional().messages({
-        
         "string.min": "Name must be at least 2 characters",
-        "string.max": "Name cannot exceed 100 characters",
-       
+        "string.max": "Name cannot exceed 100 characters", 
     }),
     description: Joi.string().optional(),
+    id: Joi.string().required(),
     price: Joi.number().optional(),
     is_approved: Joi.boolean().optional(),
     is_reviewed: Joi.boolean().optional(),

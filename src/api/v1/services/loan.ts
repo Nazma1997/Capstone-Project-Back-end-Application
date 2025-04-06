@@ -24,7 +24,7 @@ export const getAllLoans = async (): Promise<Loan[]> => {
 
 
 export const createLoan = async (item: Partial<Loan>): Promise<Loan> => {
-    console.log('loan', item)
+   
     const id: string = await createItems(COLLECTION, item);
     return { id, ...item } as Loan;
 };
