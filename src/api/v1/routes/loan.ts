@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import { approve, create, remove, review, getAll, loanDetails } from '../controllers/loan';
 import { validateRequest } from '../middleware/validate';
-import { loanSchema } from '../validation/loan';
+import { loanSchema, loanUpdateSchema } from '../validation/loan';
 
 const router: Router = express.Router();
 /**
@@ -63,7 +63,7 @@ router.post('/create',validateRequest(loanSchema), create)
  *                 loan:
  *                   $ref: "#/components/schemas/Loan"
  */
-router.put('/:id/review',review)
+router.put('/:id/review', validateRequest(loanUpdateSchema), review)
 /**
  * @openapi
  * /loan/{id}/approve:
@@ -93,7 +93,7 @@ router.put('/:id/review',review)
  *                 loan:
  *                   $ref: "#/components/schemas/Loan"
  */
-router.put('/:id/approve', approve)
+router.put('/:id/approve', validateRequest(loanUpdateSchema), approve)
 /**
  * @openapi
  * /loan:
