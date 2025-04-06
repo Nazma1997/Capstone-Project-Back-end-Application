@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import { getAll, create, branchDetails, update, remove } from '../controllers/branch';
 import { validateRequest } from '../middleware/validate';
-import { branchSchema } from '../validation/branch';
+import { branchSchema, branchUpdateSchema } from '../validation/branch';
 
 const router: Router = express.Router();
 
@@ -115,7 +115,7 @@ router.get('/:id', branchDetails);
  *                 branch:
  *                   $ref: "#/components/schemas/Branch"
  */
-router.put('/:id', update);
+router.put('/:id', validateRequest(branchUpdateSchema), update);
 
 /**
  * @openapi

@@ -11,3 +11,14 @@ export const branchSchema: ObjectSchema = Joi.object({
     created_at: Joi.date(),
     updated_at: Joi.date(),
 });
+export const branchUpdateSchema: ObjectSchema = Joi.object({
+    name: Joi.string().min(2).max(100).optional().messages({
+        
+        "string.min": "Name must be at least 2 characters",
+        "string.max": "Name cannot exceed 100 characters",
+       
+    }),
+    address: Joi.string().optional()
+   
+});
+

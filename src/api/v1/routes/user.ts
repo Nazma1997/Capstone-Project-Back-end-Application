@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import { getAll, create, login, userDetails, update, remove } from '../controllers/user';
 import { validateRequest } from '../middleware/validate';
-import { userSchema } from '../validation/user';
+import { updateUserSchema, userSchema } from '../validation/user';
 
 const router: Router = express.Router();
 
@@ -148,7 +148,7 @@ router.get('/:id', userDetails);
  *                 user:
  *                   $ref: "#/components/schemas/User"
  */
-router.put('/:id', update);
+router.put('/:id', validateRequest(updateUserSchema), update);
 
 /**
  * @openapi
