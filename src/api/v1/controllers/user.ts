@@ -7,11 +7,6 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { HTTP_STATUS } from '../../../constants/httpConstants';
 
 
-
-
-
-
-
 export const getAll = async (
     req: Request,
     res: Response,
