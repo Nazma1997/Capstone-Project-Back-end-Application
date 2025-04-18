@@ -3,8 +3,11 @@ import { auth } from "../../../../config/firebaseConfig";
 import { HTTP_STATUS } from '../../../constants/httpConstants';
 
  export const customClaims = async (req: Request, res: Response) => {
-    const { uid } = req.params;
-    const { role } = req.body;
+
+    const { role , uid} = req.body;
+
+    console.log('uid', uid)
+    console.log('role', role)
     try {
         await auth.setCustomUserClaims(uid, { role });
         res.status(HTTP_STATUS.OK).json({ message: `Role "${role}" assigned to user ${uid}` });

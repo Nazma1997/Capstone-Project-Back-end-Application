@@ -13,7 +13,7 @@ export const isAuthorize = (opts: AuthorizationOptions): (req: Request, res: Res
         const userId: string = req.params.uid;
 
         
-        if (opts.allowSameUser && userId && uid === userId) {
+        if (userId && uid === userId) {
             return next();
         }
 

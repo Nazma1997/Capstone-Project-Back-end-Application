@@ -4,6 +4,11 @@ import * as loanService from "../services/loan";
 import type { Loan } from "../models/loan";
 import { HTTP_STATUS } from '../../../constants/httpConstants';
 import { sendEmail } from "./mailer";
+import { auth } from "../../../../config/firebaseConfig";
+import { UserRecord } from 'firebase-admin/auth';
+import { DecodedIdToken } from 'firebase-admin/auth'
+
+
 
 
 export const getAll = async (
@@ -30,24 +35,36 @@ export const create = async (
     next: NextFunction
 ): Promise<void> => {
     try {
+        const token: string | undefined = req.headers.authorization?.split('Bearer ')[1];
+        if (!token) {
+            throw new Error('Authorization token is missing');
+        }
+        const decodedToken: DecodedIdToken = await auth.verifyIdToken(token);
+
+        const user: UserRecord = await auth.getUser(decodedToken.uid);
+
         const data = {
             ...req.body,
             is_reviewed: 0,
-            is_approved: 0
+            is_approved: 0,
+            user_id: decodedToken.uid,
         }
 
         const item: Loan = await loanService.createLoan(data);
 
 
-      //  send mail 
-      sendEmail({
-        email: 'nazmaakterdev@gmail.com',
-        subject: 'Loan Application',
-        text: `A user has applied for a loan. Please review the application.`
-      });
-      
+        //  send mail 
+        if (user.email) {
+            sendEmail({
+                email: 'nazmaakterdev@gmail.com',
+                subject: 'Loan Application',
+                text: `A user has applied for a loan. Please review the application.`
+            });
+        }
 
-      res.status(HTTP_STATUS.CREATED).json(
+
+
+        res.status(HTTP_STATUS.CREATED).json(
             {
                 message: 'Loan created successfully',
                 loan: item
@@ -88,14 +105,22 @@ export const review = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-
+        const loan = await loanService.getById(req.params.id);
         const updated: Loan = await loanService.updateLoan(
             req.params.id,
-           {
-            is_reviewed: true
-           }
+            {
+                is_reviewed: true
+            }
         );
-
+        const user: UserRecord = await auth.getUser(loan.data()?.user_id);
+        //  send mail 
+        if (user.email) {
+            sendEmail({
+                email: user.email,
+                subject: 'Reviewed Loan Application',
+                text: `Congratulation! Your loan is reviewed.`
+            });
+        }
         res.status(HTTP_STATUS.OK).json(
             {
                 message: 'Reviewd successfully',
@@ -112,13 +137,23 @@ export const approve = async (
     next: NextFunction
 ): Promise<void> => {
     try {
+        const loan = await loanService.getById(req.params.id);
 
         const updated: Loan = await loanService.updateLoan(
             req.params.id,
-           {
-            is_approved: true
-           }
+            {
+                is_approved: true
+            }
         );
+        const user: UserRecord = await auth.getUser(loan.data()?.user_id);
+        //  send mail 
+        if (user.email) {
+            sendEmail({
+                email: user.email,
+                subject: 'Approved Loan Application',
+                text: `Congratulation! Your loan is approved.`
+            });
+        }
 
         res.status(HTTP_STATUS.OK).json(
             {
@@ -134,28 +169,27 @@ export const loanDetails = async (
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<void> => {
+): Promise<void> => {
+
+
     const { id } = req.params;
-  
+
     if (!id) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json({ message: 'Loan id is required' });
-      return;
-    }
-  
-    try {
-      const loan = await loanService.getLoanById(id);
-      if (!loan) {
-        res.status(HTTP_STATUS.NOT_FOUND).json({ message: 'Loan not found' });
+        res.status(HTTP_STATUS.BAD_REQUEST).json({ message: 'Loan id is required' });
         return;
-      }
-      res.status(HTTP_STATUS.OK).json({
-        success: true,
-        loan: loan,
-      });
-    } catch (error) {
-      next(error);
     }
-  };
+
+    try {
+        const loan = await loanService.getById(id);
+
+        res.status(HTTP_STATUS.OK).json({
+            success: true,
+            loan: loan,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
 
 export const remove = async (
     req: Request,

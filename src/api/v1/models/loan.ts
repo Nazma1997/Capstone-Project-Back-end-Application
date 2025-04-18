@@ -39,5 +39,6 @@ export type Loan = {
     updated_at: Date;
     is_reviewed: Boolean;
     is_approved: Boolean;
-    
+    user_id: string;
+    branch_id?: string;
 };

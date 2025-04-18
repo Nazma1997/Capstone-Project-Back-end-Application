@@ -4,7 +4,8 @@ import {
     getItems,
     createItems,
     updateItems,
-    deleteItems
+    deleteItems,
+    getItemById
 } from "../repositories/firestore";
 
 const COLLECTION = "loans";
@@ -29,9 +30,8 @@ export const createLoan = async (item: Partial<Loan>): Promise<Loan> => {
     return { id, ...item } as Loan;
 };
 
-export const getLoanById = async (id: string): Promise<Loan | null> => {
-    const loan = loans.find(loan => loan.id === id);
-    return loan || null;
+export const getById = async (id: string): Promise<FirebaseFirestore.DocumentSnapshot> => {
+  return await getItemById(COLLECTION, id);
 };
 
 

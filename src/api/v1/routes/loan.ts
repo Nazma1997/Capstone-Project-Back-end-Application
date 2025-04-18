@@ -2,6 +2,8 @@ import express, { Router } from 'express';
 import { approve, create, remove, review, getAll, loanDetails } from '../controllers/loan';
 import { validateRequest } from '../middleware/validate';
 import { loanSchema, loanUpdateSchema } from '../validation/loan';
+import { isAuthenticate } from '../middleware/authenticate';
+import { isAuthorize } from '../middleware/authorize';
 
 const router: Router = express.Router();
 /**
@@ -33,7 +35,9 @@ const router: Router = express.Router();
  *                 item:
  *                   $ref: "#/components/schemas/Loan"
  */
-router.post('/create',validateRequest(loanSchema), create)
+router.post('/create', isAuthenticate, isAuthorize({
+    hasRole: ['user']
+}), validateRequest(loanSchema), create)
 /**
  * @openapi
  * /loan/{id}/review:
@@ -63,7 +67,9 @@ router.post('/create',validateRequest(loanSchema), create)
  *                 loan:
  *                   $ref: "#/components/schemas/Loan"
  */
-router.put('/:id/review', validateRequest(loanUpdateSchema), review)
+router.put('/:id/review', isAuthenticate, isAuthorize({
+    hasRole: ['officer']
+}), validateRequest(loanUpdateSchema), review)
 /**
  * @openapi
  * /loan/{id}/approve:
@@ -93,7 +99,9 @@ router.put('/:id/review', validateRequest(loanUpdateSchema), review)
  *                 loan:
  *                   $ref: "#/components/schemas/Loan"
  */
-router.put('/:id/approve', validateRequest(loanUpdateSchema), approve)
+router.put('/:id/approve', isAuthenticate, isAuthorize({
+    hasRole: ['manager']
+}), validateRequest(loanUpdateSchema), approve)
 /**
  * @openapi
  * /loan:
@@ -113,7 +121,9 @@ router.put('/:id/approve', validateRequest(loanUpdateSchema), approve)
  *               items:
  *                 $ref: "#/components/schemas/Loan"
  */
-router.get('/', getAll)
+router.get('/', isAuthenticate, isAuthorize({
+    hasRole: ['manager', 'officer']
+}), getAll)
 /**
  * @openapi
  * /loan/{id}:
@@ -143,6 +153,9 @@ router.get('/', getAll)
  */
 router.get(
     "/:id",
+    isAuthenticate, isAuthorize({
+        hasRole: ['manager', 'officer']
+    }),
     loanDetails
 );
 /**
@@ -174,6 +187,9 @@ router.get(
  */
 router.delete(
     "/:id/delete",
+    isAuthenticate, isAuthorize({
+        hasRole: ['manager']
+    }),
     remove
 );
 
