@@ -1,5 +1,7 @@
 import { db } from "../../../../config/firebaseConfig";
 import { RepositoryError } from "../errors/errors";
+import { QueryOptions } from "../models/filtering";
+
 
 
 export const runTransaction = async <T>(
@@ -39,11 +41,33 @@ export const createItems = async <T>(
 };
 
 export const getItems = async (
-    collectionName: string
+    collectionName: string,
+    options: QueryOptions = {}
+
 ): Promise<FirebaseFirestore.QuerySnapshot> => {
     try {
-       
-        return await db.collection(collectionName).get();
+
+
+        let query: FirebaseFirestore.Query = db.collection(collectionName);
+
+        if (options) {
+            options.filters?.forEach(({ field, operator, value }) => {
+                query = query.where(field, operator, value);
+            });
+
+
+         
+
+
+            if (options.limit) {
+                query = query.limit(options.limit);
+            }
+
+
+        }
+
+
+        return await query.get();
     } catch (error: unknown) {
         throw new RepositoryError(
             'Retrive issue', 'RETRIVE_ISSUE'
@@ -96,7 +120,7 @@ export const updateItems = async <T>(
 };
 
 
-export const deleteItems= async (
+export const deleteItems = async (
     collectionName: string,
     id: string,
     transaction?: FirebaseFirestore.Transaction

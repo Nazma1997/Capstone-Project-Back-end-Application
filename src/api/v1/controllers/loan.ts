@@ -7,6 +7,7 @@ import { sendEmail } from "./mailer";
 import { auth } from "../../../../config/firebaseConfig";
 import { UserRecord } from 'firebase-admin/auth';
 import { DecodedIdToken } from 'firebase-admin/auth'
+import { WhereFilterOp } from 'firebase-admin/firestore';
 
 
 
@@ -17,11 +18,46 @@ export const getAll = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const items: Loan[] = await loanService.getAllLoans();
+        const {priceMin, priceMax,limit, user_id, branch_id, is_approved, is_reviewed } = req.query;
 
-        res.status(HTTP_STATUS.OK).json(
-            items
-        );
+        const filters = [];
+
+        if (priceMin) {
+            filters.push({ field: 'price', operator: '<=' as WhereFilterOp, value: Number(priceMin) });
+        }
+
+        if (priceMax) {
+            filters.push({ field: 'price', operator: '>=' as WhereFilterOp, value: Number(priceMax) });
+        }
+
+       
+            if (user_id) {
+                filters.push({ field: 'user_id', operator: '==' as WhereFilterOp, value: Number(user_id) });
+            }
+            if (branch_id) {
+                filters.push({ field: 'branch_id', operator: '==' as WhereFilterOp, value: Number(branch_id) });
+            }
+
+            if (is_approved) {
+                filters.push({ field: 'is_approved', operator: '==' as WhereFilterOp, value: Number(is_approved) });
+            }
+
+            if (is_reviewed) {
+                filters.push({ field: 'is_reviewed', operator: '==' as WhereFilterOp, value: Number(is_reviewed) });
+            }
+    
+    
+        const queryOptions = {
+            filters,
+           
+            limit: limit ? Number(limit) : undefined,
+        };
+
+        const items = await loanService.getAllLoans(queryOptions);
+        
+
+        res.status(HTTP_STATUS.OK).json(items);
+
     } catch (error) {
         next(error);
     }

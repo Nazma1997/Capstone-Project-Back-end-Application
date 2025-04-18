@@ -1,4 +1,5 @@
 
+import { QueryOptions } from "../models/filtering";
 import { Loan } from "../models/loan";
 import {
     getItems,
@@ -9,20 +10,18 @@ import {
 } from "../repositories/firestore";
 
 const COLLECTION = "loans";
-const loans: Loan[] = [];
 
-export const getAllLoans = async (): Promise<Loan[]> => {
-    const snapshot: FirebaseFirestore.QuerySnapshot = await getItems(
-        COLLECTION
-    );
 
+
+export const getAllLoans = async (
+    queryOptions?: QueryOptions
+): Promise<Loan[]> => {
+    const snapshot = await getItems(COLLECTION, queryOptions || {});
     return snapshot.docs.map((doc) => {
-        const data: FirebaseFirestore.DocumentData = doc.data();
-        return { id: doc.id, ...data } as unknown as Loan;
+        const data = doc.data();
+        return { id: doc.id, ...data } as Loan;
     });
 };
-
-
 
 export const createLoan = async (item: Partial<Loan>): Promise<Loan> => {
    

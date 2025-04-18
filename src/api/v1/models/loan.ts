@@ -42,3 +42,4 @@ export type Loan = {
     user_id: string;
     branch_id?: string;
 };
+
