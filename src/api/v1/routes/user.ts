@@ -2,6 +2,8 @@ import express, { Router } from 'express';
 import { getAll, create, login, userDetails, update, remove } from '../controllers/user';
 import { validateRequest } from '../middleware/validate';
 import { updateUserSchema, userSchema } from '../validation/user';
+import { isAuthenticate } from '../middleware/authenticate';
+import { isAuthorize } from '../middleware/authorize';
 
 const router: Router = express.Router();
 
@@ -86,7 +88,9 @@ router.post('/login', login);
  *               items:
  *                 $ref: "#/components/schemas/User"
  */
-router.get('/', getAll);
+router.get('/',isAuthenticate, isAuthorize({
+    hasRole: ['manager', 'officer']
+}), getAll);
 
 /**
  * @openapi
@@ -148,7 +152,9 @@ router.get('/:id', userDetails);
  *                 user:
  *                   $ref: "#/components/schemas/User"
  */
-router.put('/:id', validateRequest(updateUserSchema), update);
+router.put('/:id', isAuthenticate, isAuthorize({
+    hasRole: ['manager', 'officer']
+}), validateRequest(updateUserSchema), update);
 
 /**
  * @openapi
@@ -177,6 +183,8 @@ router.put('/:id', validateRequest(updateUserSchema), update);
  *                   type: string
  *                   example: "User deleted successfully"
  */
-router.delete('/:id', remove);
+router.delete('/:id', isAuthenticate, isAuthorize({
+    hasRole: ['manager', 'officer']
+}), remove);
 
 export default router;

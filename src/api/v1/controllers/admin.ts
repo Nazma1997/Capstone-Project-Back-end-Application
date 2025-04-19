@@ -4,13 +4,12 @@ import { HTTP_STATUS } from '../../../constants/httpConstants';
 
  export const customClaims = async (req: Request, res: Response) => {
 
-    const { role , uid} = req.body;
+    const { role , uid, branch_id} = req.body;
 
-    console.log('uid', uid)
-    console.log('role', role)
+  
     try {
-        await auth.setCustomUserClaims(uid, { role });
-        res.status(HTTP_STATUS.OK).json({ message: `Role "${role}" assigned to user ${uid}` });
+        await auth.setCustomUserClaims(uid, { role, branch_id });
+        res.status(HTTP_STATUS.OK).json({ message: `Role "${role}" & branch "${branch_id}" assigned to user ${uid}` });
     } catch (error) {
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ error: "Failed to set custom claims" });
     }

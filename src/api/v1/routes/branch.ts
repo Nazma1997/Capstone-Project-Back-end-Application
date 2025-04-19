@@ -2,6 +2,8 @@ import express, { Router } from 'express';
 import { getAll, create, branchDetails, update, remove } from '../controllers/branch';
 import { validateRequest } from '../middleware/validate';
 import { branchSchema, branchUpdateSchema } from '../validation/branch';
+import { isAuthenticate } from '../middleware/authenticate';
+import { isAuthorize } from '../middleware/authorize';
 
 const router: Router = express.Router();
 
@@ -32,7 +34,9 @@ const router: Router = express.Router();
  *                 branch:
  *                   $ref: "#/components/schemas/Branch"
  */
-router.post('/create', validateRequest(branchSchema), create);
+router.post('/create',isAuthenticate, isAuthorize({
+    hasRole: ['manager', 'officer']
+}), validateRequest(branchSchema), create);
 
 /**
  * @openapi
@@ -115,7 +119,9 @@ router.get('/:id', branchDetails);
  *                 branch:
  *                   $ref: "#/components/schemas/Branch"
  */
-router.put('/:id', validateRequest(branchUpdateSchema), update);
+router.put('/:id',isAuthenticate, isAuthorize({
+    hasRole: ['manager', 'officer']
+}), validateRequest(branchUpdateSchema), update);
 
 /**
  * @openapi
@@ -144,6 +150,8 @@ router.put('/:id', validateRequest(branchUpdateSchema), update);
  *                   type: string
  *                   example: "Branch deleted successfully"
  */
-router.delete('/:id', remove);
+router.delete('/:id',isAuthenticate, isAuthorize({
+    hasRole: ['manager', 'officer']
+}), remove);
 
 export default router;

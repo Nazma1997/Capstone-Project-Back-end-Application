@@ -62,7 +62,7 @@ export const branchDetails = async (
     }
   
     try {
-      const branch = await branchService.getBranchById(Number(id));
+      const branch = await branchService.getById(id);
       if (!branch) {
         res.status(HTTP_STATUS.NOT_FOUND).json({ message: 'Branch not found' });
         return;

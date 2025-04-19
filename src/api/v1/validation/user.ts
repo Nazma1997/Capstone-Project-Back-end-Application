@@ -18,9 +18,7 @@ export const userSchema: ObjectSchema = Joi.object({
         "string.max": "Password cannot exceed 100 characters",
         "any.required": "Password is required",
     }),
-    
-    created_at: Joi.date(),
-    updated_at: Joi.date(),
+   
 });
 export const updateUserSchema: ObjectSchema = Joi.object({
     name: Joi.string().min(2).max(100).optional().messages({

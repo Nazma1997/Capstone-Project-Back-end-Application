@@ -84,6 +84,8 @@ export const create = async (
             is_reviewed: 0,
             is_approved: 0,
             user_id: decodedToken.uid,
+            branch_id : user?.customClaims?.branch_id
+
         }
 
         const item: Loan = await loanService.createLoan(data);

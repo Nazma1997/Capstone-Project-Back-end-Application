@@ -4,7 +4,8 @@ import {
     getItems,
     createItems,
     updateItems,
-    deleteItems
+    deleteItems,
+    getItemById
 } from "../repositories/firestore";
 
 const COLLECTION = "branches";
@@ -29,10 +30,11 @@ export const createBranch = async (item: Partial<Branch>): Promise<Branch> => {
     
 };
 
-export const getBranchById = async (id: number): Promise<Branch | null> => {
-    const branch = branches.find(branch => branch.id === id);
-    return branch || null;
+
+export const getById = async (id: string): Promise<FirebaseFirestore.DocumentSnapshot> => {
+  return await getItemById(COLLECTION, id);
 };
+
 export const updateBranch = async (
     id: string,
     item: Partial<Branch>
