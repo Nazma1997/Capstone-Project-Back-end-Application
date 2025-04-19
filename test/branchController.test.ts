@@ -174,7 +174,7 @@ describe("Branch Controller", () => {
     it("should return 404 if branch not found", async () => {
       const branchId = "1";
       mockReq.params = { id: branchId };
-      (branchService.getBranchById as jest.Mock).mockResolvedValue(null);
+      (branchService.getById as jest.Mock).mockResolvedValue(null);
 
       await branchController.branchDetails(
         mockReq as Request,
@@ -182,7 +182,7 @@ describe("Branch Controller", () => {
         mockNext
       );
 
-      expect(branchService.getBranchById).toHaveBeenCalledWith(Number(branchId));
+      expect(branchService.getById).toHaveBeenCalledWith(branchId);
       expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.NOT_FOUND);
       expect(mockRes.json).toHaveBeenCalledWith({
         message: 'Branch not found'
@@ -197,7 +197,7 @@ describe("Branch Controller", () => {
         address: "123 Main St"
       };
       mockReq.params = { id: branchId };
-      (branchService.getBranchById as jest.Mock).mockResolvedValue(mockBranch);
+      (branchService.getById as jest.Mock).mockResolvedValue(mockBranch);
 
       await branchController.branchDetails(
         mockReq as Request,
@@ -216,7 +216,7 @@ describe("Branch Controller", () => {
       const branchId = "1";
       const mockError = new Error("Database error");
       mockReq.params = { id: branchId };
-      (branchService.getBranchById as jest.Mock).mockRejectedValue(mockError);
+      (branchService.getById as jest.Mock).mockRejectedValue(mockError);
 
       await branchController.branchDetails(
         mockReq as Request,
